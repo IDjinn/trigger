@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class Event extends TBase {
+public class Event {
     private transient Object object;
     private transient Map<String, Object> context;
     private transient TriggerSystem triggerSystem;
@@ -16,10 +16,12 @@ public class Event extends TBase {
     private final Map<String, Object> attributes;
 
     private Trigger trigger;
-    private int type;
+    private final int type;
+    private final String name;
 
     public Event(final int type, final String name) {
-        super(1, type, name);
+        this.type = type;
+        this.name = name;
 
         this.context = new ConcurrentHashMap<>();
         this.attributes = new ConcurrentHashMap<>();

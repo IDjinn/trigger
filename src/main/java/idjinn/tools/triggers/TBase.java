@@ -39,7 +39,7 @@ public abstract class TBase {
     }
 
     public void addEvent(final Event event) {
-        this.events.put(event.id(), event);
+//        this.events.put(event.id(), event);
     }
 
     public void addCondition(final Condition condition) {

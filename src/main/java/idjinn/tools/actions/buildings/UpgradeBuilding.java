@@ -1,6 +1,7 @@
 package idjinn.tools.actions.buildings;
 
 import idjinn.tools.actions.Action;
+import idjinn.tools.actions.ActionType;
 import idjinn.tools.events.Event;
 
 public class UpgradeBuilding extends Action {
@@ -15,6 +16,6 @@ public class UpgradeBuilding extends Action {
 
     @Override
     public int type() {
-        return 1;
+        return ActionType.UPGRADE_BUILDING.getType();
     }
 }

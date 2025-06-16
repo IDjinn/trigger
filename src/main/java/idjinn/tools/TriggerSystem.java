@@ -2,9 +2,6 @@ package idjinn.tools;
 
 import idjinn.tools.actions.Action;
 import idjinn.tools.conditions.Condition;
-import idjinn.tools.conditions.Node;
-import idjinn.tools.conditions.Operator;
-import idjinn.tools.conditions.Value;
 import idjinn.tools.events.Event;
 import idjinn.tools.triggers.Trigger;
 import org.dom4j.Element;
@@ -19,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 public class TriggerSystem {
     private static final Logger log = LoggerFactory.getLogger(TriggerSystem.class);
@@ -74,24 +70,24 @@ public class TriggerSystem {
     public void init(final List<Element> elements) {
         for (final var element : elements) {
             try {
-                final var trigger = Factory.createTrigger(element);
+                final var trigger = TriggerFactory.createTrigger(element);
                 final Element events = element.element("events");
                 for (final var e : events.elements()) {
-                    final var event = Factory.createEvent((Element) e);
+                    final var event = TriggerFactory.createEvent((Element) e);
                     event.setTrigger(trigger);
                     trigger.addEvent(event);
                 }
 
                 final Element conditions = element.element("conditions");
                 for (final var c : conditions.elements()) {
-                    final var condition = Factory.createCondition((Element) c);
+                    final var condition = TriggerFactory.createCondition((Element) c);
                     condition.setTrigger(trigger);
                     trigger.addCondition(condition);
                 }
 
                 final Element actions = element.element("actions");
                 for (final var a : actions.elements()) {
-                    final var action = Factory.createAction((Element) a);
+                    final var action = TriggerFactory.createAction((Element) a);
                     action.setTrigger(trigger);
                     trigger.addAction(action);
                 }

@@ -14,15 +14,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-public final class Factory {
+public final class TriggerFactory {
 
-    private static final Logger log = LoggerFactory.getLogger(Factory.class);
+    private static final Logger log = LoggerFactory.getLogger(TriggerFactory.class);
     private static final Map<Integer, Class<? extends Action>> actionTypes = new ConcurrentHashMap<>();
 
     public static void registerPackage(final String packageName) {
@@ -30,8 +29,8 @@ public final class Factory {
         final var subTypes = reflections.getSubTypesOf(Action.class);
         for (final var clazz : subTypes) {
             try {
-                final var instance = (Action) clazz.getConstructor(String.class).newInstance( "");
-                actionTypes.put(instance.type(), clazz);
+                final var instance = (Action) clazz.getConstructor(String.class).newInstance("");
+                TriggerFactory.actionTypes.put(instance.type(), clazz);
             } catch (final Exception e) {
                 log.error("could not instantiate {}: {}", clazz.getSimpleName(), e.getMessage(), e);
             }
@@ -52,33 +51,30 @@ public final class Factory {
     }
 
     public static Node createConditionObject(final Element element) {
-        final var tagName = element.getName();
-
-        return switch (tagName) {
+        return switch (element.getName()) {
             case "value" -> new Value(element.getData());
             case "op" -> new Operator(element.getData());
-            default -> null;
+            default -> throw new IllegalArgumentException("unknown tag: " + element.getName());
         };
     }
 
     @SuppressWarnings("unchecked")
     public static Condition createCondition(final Element element) {
-        final var id = Integer.parseInt(element.attributeValue("id"));
         final var type = Integer.parseInt(element.attributeValue("type"));
         final var name = element.attributeValue("name");
 
         final var tags = ((List<Element>) element.elements())
                 .stream()
-                .map(Factory::createConditionObject)
+                .map(TriggerFactory::createConditionObject)
                 .collect(Collectors.toCollection(ArrayList::new));
 
-        return new Condition(id, type, name, tags);
+        return new Condition(type, name, tags);
     }
 
     public static Action createAction(final Element element) {
         final int type = Integer.parseInt(element.attributeValue("type"));
         final var name = element.attributeValue("name");
-        final var actionClass = actionTypes.get(type);
+        final var actionClass = TriggerFactory.actionTypes.get(type);
         if (actionClass == null) {
             log.error("missing action type {}", type);
             throw new IllegalArgumentException("missing action type " + type);

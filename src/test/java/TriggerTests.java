@@ -1,10 +1,8 @@
-import idjinn.tools.Factory;
+import idjinn.tools.TriggerFactory;
 import idjinn.tools.TriggerSystem;
 import idjinn.tools.events.Event;
 import idjinn.tools.events.EventType;
 import org.junit.jupiter.api.Test;
-
-import java.util.concurrent.ConcurrentHashMap;
 
 public class TriggerTests {
     @Test
@@ -27,7 +25,7 @@ public class TriggerTests {
 </tns:database>
 """;
 
-        Factory.registerPackage("idjinn.tools");
+        TriggerFactory.registerPackage("idjinn.tools");
         final var triggerSystem = new TriggerSystem();
         final var elements = triggerSystem.parseXMLSource(XML);
         triggerSystem.init(elements);
