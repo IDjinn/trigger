@@ -14,12 +14,13 @@ public class TriggerTests {
   <trigger id="1" type="1" name="trigger test">
     <events>
       <event type="1" name="hello world"/>
+              <event type="6" name="test building"/>
     </events>
     <conditions>
-      <condition id="1" type="1" name="simple condition"><value>10</value><op>==</op><value>10</value></condition>
+              <condition type="1" name="simple condition"><value>10</value><op>==</op><value>10</value></condition>
     </conditions>
     <actions>
-      <action id="1" type="1" name="printf">hello world!</action>
+              <action type="1" name="printf">hello world!</action>
     </actions>
   </trigger>
 </tns:database>

@@ -1,21 +1,24 @@
 package idjinn.tools.events;
 
 import idjinn.tools.TriggerSystem;
-import idjinn.tools.triggers.TBase;
 import idjinn.tools.triggers.Trigger;
+import lombok.Data;
+import lombok.ToString;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Data
+@ToString(exclude = "trigger")
 public class Event {
     private transient Object object;
     private transient Map<String, Object> context;
     private transient TriggerSystem triggerSystem;
 
     private final Map<String, Object> attributes;
+    private final transient Object locker;
 
-    private Trigger trigger;
+    private transient Trigger trigger;
     private final int type;
     private final String name;
 
@@ -25,26 +28,7 @@ public class Event {
 
         this.context = new ConcurrentHashMap<>();
         this.attributes = new ConcurrentHashMap<>();
-    }
-
-    public void setTrigger(final Trigger trigger) {
-        this.trigger = trigger;
-    }
-
-    public TriggerSystem getTriggerSystem() {
-        return triggerSystem;
-    }
-
-    public Map<String, Object> getContext() {
-        return context;
-    }
-
-    public Object getObject() {
-        return object;
-    }
-
-    public Map<String, Object> getAttributes() {
-        return attributes;
+        this.locker = new Object();
     }
 
     public Event setContext(final Map<String, Object> context) {

@@ -1,11 +1,12 @@
 package idjinn.tools.actions;
 
 import idjinn.tools.events.Event;
-import idjinn.tools.triggers.TBase;
 import idjinn.tools.triggers.Trigger;
+import lombok.Data;
+import lombok.ToString;
 
-import java.util.Optional;
-
+@Data
+@ToString(exclude = "trigger")
 public abstract class Action {
     private final String name;
     private Trigger trigger;
@@ -17,12 +18,4 @@ public abstract class Action {
     public abstract void process(Event event);
 
     public abstract int type();
-
-    public void setTrigger(final Trigger trigger) {
-        this.trigger = trigger;
-    }
-
-    public Trigger getTrigger() {
-        return trigger;
-    }
 }

@@ -1,5 +1,7 @@
 package idjinn.tools;
 
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.Multimap;
 import idjinn.tools.actions.Action;
 import idjinn.tools.conditions.Condition;
 import idjinn.tools.events.Event;
@@ -19,24 +21,30 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class TriggerSystem {
     private static final Logger log = LoggerFactory.getLogger(TriggerSystem.class);
-    private final Map<Integer, Action> actions;
-    private final Map<Integer, Condition> conditions;
+    private final Multimap<Integer, Action> actions;
+    private final Multimap<Integer, Condition> conditions;
     private final Map<Integer, Trigger> triggers;
 
-    public TriggerSystem(Map<Integer, Action> actions, Map<Integer, Condition> conditions, Map<Integer, Trigger> triggers) {
+    public TriggerSystem(Multimap<Integer, Action> actions, Multimap<Integer, Condition> conditions, Map<Integer, Trigger> triggers) {
         this.actions = actions;
         this.conditions = conditions;
         this.triggers = triggers;
     }
 
     public TriggerSystem() {
-        this.actions = new ConcurrentHashMap<>();
-        this.conditions = new ConcurrentHashMap<>();
+        this.actions = HashMultimap.create();
+        this.conditions = HashMultimap.create();
         this.triggers = new ConcurrentHashMap<>();
     }
 
     public void onEvent(final Event event) {
+        synchronized (event.getLocker()) {
+            event.setTriggerSystem(this);
 
+            for (final var trigger : this.triggers.values()) {
+                trigger.process(event);
+            }
+        }
     }
 
     public List<Element> parseXMLSource(final String source) {
@@ -104,11 +112,11 @@ public class TriggerSystem {
         log.debug("added trigger {} with name {}", trigger.id(), trigger.name());
     }
 
-    public Map<Integer, Action> getActions() {
+    public Multimap<Integer, Action> getActions() {
         return actions;
     }
 
-    public Map<Integer, Condition> getConditions() {
+    public Multimap<Integer, Condition> getConditions() {
         return conditions;
     }
 
