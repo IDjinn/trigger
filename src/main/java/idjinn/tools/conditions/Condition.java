@@ -20,9 +20,7 @@ public abstract class Condition {
         this.nodes = nodes;
     }
 
-    public boolean process(final Event event) {
-        return true;
-    }
+    public abstract boolean matches(final Event event);
 
     public abstract int type();
 }

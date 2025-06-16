@@ -5,9 +5,6 @@ import idjinn.tools.conditions.Condition;
 import idjinn.tools.conditions.Node;
 import idjinn.tools.conditions.Operator;
 import idjinn.tools.conditions.Value;
-import idjinn.tools.conditions.defaults.EqualsCondition;
-import idjinn.tools.conditions.defaults.GreaterThanCondition;
-import idjinn.tools.conditions.defaults.LessThanCondition;
 import idjinn.tools.events.Event;
 import idjinn.tools.triggers.Trigger;
 import org.dom4j.Element;
@@ -93,17 +90,6 @@ final class TriggerFactory {
         };
     }
 
-    public static Condition getConditionDefaultByOperator(final String name, final Operator operator, final Value left, final Value right) {
-        return switch (operator.getData().toString()) {
-            case "==" -> new EqualsCondition(name, left, right);
-//            case ">=" -> new EqualsCondition(name, left, right);
-//            case "<=" -> new EqualsCondition(name, left, right);
-            case ">" -> new GreaterThanCondition(name, left, right);
-            case "<" -> new LessThanCondition(name, left, right);
-//            case "!" -> new NotCondition(name, left, right);
-            default -> throw new IllegalArgumentException("unknown operator: " + operator.getData());
-        };
-    }
 
     @SuppressWarnings("unchecked")
     public static Condition createCondition(final Element element) {

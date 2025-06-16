@@ -17,7 +17,7 @@ public class TriggerTests {
                         <condition type="1" name="simple condition">
                             <value>10</value>
                                 <op>==</op>
-                            <value>10</value>
+                            <value>1</value>
                         </condition>
                     </conditions>
                     <actions>

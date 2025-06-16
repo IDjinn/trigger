@@ -66,7 +66,7 @@ public class Trigger {
             if (e.type() != event.type()) continue;
 
             for (final var condition : this.conditions.values()) {
-                final var conditionMatch = condition.process(event);
+                final var conditionMatch = condition.matches(event);
                 log.trace("event: {}, condition: {}, match: {}", event, condition.type(), conditionMatch);
                 if (!conditionMatch) return;
             }
