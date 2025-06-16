@@ -33,7 +33,9 @@ public class TriggerSystem {
         this.triggers = triggers;
     }
 
-    public TriggerSystem() {
+    public TriggerSystem(final String packageName) {
+        TriggerFactory.registerPackage(packageName);
+
         this.actions = HashMultimap.create();
         this.conditions = HashMultimap.create();
         this.triggers = new ConcurrentHashMap<>();
@@ -91,7 +93,7 @@ public class TriggerSystem {
                 final Element conditions = element.element("conditions");
                 for (final var c : conditions.elements()) {
                     final var condition = TriggerFactory.createCondition((Element) c);
-                    condition.setTrigger(trigger);
+//                    condition.setTrigger(trigger);
                     trigger.addCondition(condition);
                 }
 

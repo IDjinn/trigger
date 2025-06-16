@@ -2,22 +2,18 @@ package idjinn.tools.conditions;
 
 import idjinn.tools.events.Event;
 import idjinn.tools.triggers.TBase;
-import lombok.Data;
 import lombok.ToString;
 
-import java.util.ArrayList;
+import java.util.List;
 
-@Data
-public class Condition {
-    private final int type;
+public abstract class Condition {
     private final String name;
-    private final ArrayList<Node> nodes;
+    private final List<Node> nodes;
 
     @ToString.Exclude
     private transient TBase trigger;
 
-    public Condition(final int type, final String name, final ArrayList<Node> nodes) {
-        this.type = type;
+    public Condition(final String name, final List<Node> nodes) {
         this.name = name;
         this.nodes = nodes;
     }
@@ -25,4 +21,6 @@ public class Condition {
     public boolean process(final Event event) {
         return true;
     }
+
+    public abstract int type();
 }

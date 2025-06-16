@@ -18,7 +18,7 @@ public class Trigger extends TBase {
 
             for (final var condition : this.getConditions().values()) {
                 final var conditionMatch = condition.process(event);
-                log.trace("event: {}, condition: {}, match: {}", event, condition.getType(), conditionMatch);
+                log.trace("event: {}, condition: {}, match: {}", event, condition.type(), conditionMatch);
                 if (!conditionMatch) return;
             }
         }

@@ -44,7 +44,7 @@ public abstract class TBase {
     }
 
     public void addCondition(final Condition condition) {
-        this.conditions.put(condition.getType(), condition);
+        this.conditions.put(condition.type(), condition);
     }
 
     public void addAction(final Action action) {
