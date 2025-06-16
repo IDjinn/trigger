@@ -51,13 +51,13 @@ public class TriggerSystem {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public List<Element> parseXMLSource(final String source) {
         final var elements = new ArrayList<Element>();
         final var reader = new SAXReader();
         try {
             final var read = reader.read(new InputSource(new StringReader(source)));
             final var rootElement = read.getRootElement();
-            //noinspection unchecked
             elements.addAll(rootElement.elements("trigger"));
         } catch (final Exception e) {
             log.error("error reading triggers file: {}", e.getMessage(), e);
@@ -65,13 +65,13 @@ public class TriggerSystem {
         return elements;
     }
 
+    @SuppressWarnings("unchecked")
     public List<Element> parseXMLFromFile(final File file) {
         final var elements = new ArrayList<Element>();
         final var reader = new SAXReader();
         try {
             final var read = reader.read(file);
             final var rootElement = read.getRootElement();
-            //noinspection unchecked
             elements.addAll(rootElement.elements("trigger"));
         } catch (final Exception e) {
             log.error("error reading triggers file: {}", e.getMessage(), e);
@@ -93,7 +93,7 @@ public class TriggerSystem {
                 final Element conditions = element.element("conditions");
                 for (final var c : conditions.elements()) {
                     final var condition = TriggerFactory.createCondition((Element) c);
-//                    condition.setTrigger(trigger);
+                    condition.setTrigger(trigger);
                     trigger.addCondition(condition);
                 }
 

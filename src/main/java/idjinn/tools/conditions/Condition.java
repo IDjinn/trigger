@@ -2,6 +2,7 @@ package idjinn.tools.conditions;
 
 import idjinn.tools.events.Event;
 import idjinn.tools.triggers.TBase;
+import idjinn.tools.triggers.Trigger;
 import lombok.ToString;
 
 import java.util.List;
@@ -23,4 +24,8 @@ public abstract class Condition {
     }
 
     public abstract int type();
+
+    public void setTrigger(final Trigger trigger) {
+        this.trigger = trigger;
+    }
 }

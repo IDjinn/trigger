@@ -10,13 +10,19 @@ public class TriggerTests {
                 <tns:database xmlns:tns="http://www.iw.com/sns/platform/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
                   <trigger id="1" type="1" name="trigger test">
                     <events>
-                        <event type="1" name="hello world"/>
+                        <event type="0" name="hello world"/>
                     </events>
                     <conditions>
-                        <condition type="1" name="simple condition"><value>10</value><op>==</op><value>10</value></condition>
+                        <condition type="1" name="simple condition">
+                            <value>10</value>
+                                <op>==</op>
+                            <value>10</value>
+                        </condition>
                     </conditions>
                     <actions>
-                        <action type="1" name="printf"><value>hello world!</value></action>
+                        <action type="1" name="printf">
+                            <value>hello world!</value>
+                        </action>
                     </actions>
                   </trigger>
                 </tns:database>
@@ -25,6 +31,6 @@ public class TriggerTests {
         final var triggerSystem = new TriggerSystem("idjinn.tools");
         final var elements = triggerSystem.parseXMLSource(XML);
         triggerSystem.init(elements);
-        triggerSystem.onEvent(new Event(EventType.ON_LOGIN.getType(), "building created").addAttribute("BUILDING_ID", "1"));
+        triggerSystem.onEvent(new Event(0, "building created").addAttribute("BUILDING_ID", "1"));
     }
 }
