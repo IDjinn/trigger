@@ -1,5 +1,8 @@
 package idjinn.tools.events;
 
+import lombok.Getter;
+
+@Getter
 public enum EventType {
     UNKNOWN(0),
 
@@ -21,7 +24,4 @@ public enum EventType {
         this.type = type;
     }
 
-    public int getType() {
-        return type;
-    }
 }

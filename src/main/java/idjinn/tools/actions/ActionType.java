@@ -1,5 +1,8 @@
 package idjinn.tools.actions;
 
+import lombok.Getter;
+
+@Getter
 public enum ActionType {
     UNKNOWN(0),
 
@@ -13,7 +16,4 @@ public enum ActionType {
         this.type = type;
     }
 
-    public int getType() {
-        return type;
-    }
 }

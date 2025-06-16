@@ -1,5 +1,8 @@
 package idjinn.tools.conditions;
 
+import lombok.Getter;
+
+@Getter
 public enum ConditionType {
     UNKNOWN(0),
 
@@ -7,10 +10,6 @@ public enum ConditionType {
     COMPARE_GOLD(2),
     COMPARE_LORD_LEVEL(3),
     ;
-
-    public int getType() {
-        return type;
-    }
 
     public final int type;
     ConditionType(final int type) {
