@@ -1,15 +1,12 @@
 package idjinn.tools.conditions.defaults;
 
 
-import idjinn.tools.conditions.Condition;
 import idjinn.tools.conditions.DefaultConditionsTypes;
 import idjinn.tools.conditions.Node;
 
-import java.util.ArrayList;
-
-public class AndCondition extends Condition {
-    public AndCondition(final String name, final ArrayList<Node> nodes) {
-        super(name, nodes);
+public class AndCondition extends ComparisonCondition {
+    public AndCondition(final String name, final Node left, final Node right) {
+        super(name, left, right);
     }
 
     @Override

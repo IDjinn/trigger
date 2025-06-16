@@ -1,6 +1,5 @@
 package idjinn.tools.actions;
 
-import idjinn.tools.TriggerContext;
 import idjinn.tools.conditions.Node;
 import idjinn.tools.events.Event;
 import idjinn.tools.triggers.Trigger;
@@ -8,6 +7,7 @@ import lombok.Data;
 import lombok.ToString;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 @Data
 public abstract class Action {
@@ -22,7 +22,11 @@ public abstract class Action {
         this.nodes = nodes;
     }
 
-    public abstract void process(final TriggerContext context, Event event);
+    public abstract void process(Event event);
 
     public abstract int type();
+
+    public Optional<Object> firstNode() {
+        return nodes.isEmpty() ? Optional.empty() : Optional.of(nodes.getFirst());
+    }
 }

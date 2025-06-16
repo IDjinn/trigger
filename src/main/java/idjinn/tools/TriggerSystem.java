@@ -39,8 +39,9 @@ public class TriggerSystem {
     public void onEvent(final TriggerContext context, final Event event) {
         synchronized (event.getLocker()) {
 //            event.setTriggerSystem(this);
+            event.setContext(context);
             for (final var trigger : this.triggers.values()) {
-                trigger.process(context, event);
+                trigger.process(event);
             }
         }
     }

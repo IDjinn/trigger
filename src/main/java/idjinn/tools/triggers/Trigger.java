@@ -2,7 +2,6 @@ package idjinn.tools.triggers;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import idjinn.tools.TriggerContext;
 import idjinn.tools.actions.Action;
 import idjinn.tools.conditions.Condition;
 import idjinn.tools.events.Event;
@@ -61,7 +60,7 @@ public class Trigger {
         this.actions.put(action.type(), action);
     }
 
-    public void process(final TriggerContext context, final Event event) {
+    public void process(final Event event) {
         final var startTime = System.currentTimeMillis();
         for (final var e : this.events.values()) {
             if (e.type() != event.type()) continue;
@@ -75,7 +74,7 @@ public class Trigger {
 
         for (final var action : this.actions.values()) {
             log.trace("event: {}, action: {}", event, action);
-            action.process(context, event);
+            action.process(event);
         }
 
         log.trace("trigger: {} event: {} took {}ms", this.id(), event, System.currentTimeMillis() - startTime);

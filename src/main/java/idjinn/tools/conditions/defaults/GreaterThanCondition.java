@@ -1,15 +1,13 @@
 package idjinn.tools.conditions.defaults;
 
 
-import idjinn.tools.conditions.Condition;
 import idjinn.tools.conditions.DefaultConditionsTypes;
 import idjinn.tools.conditions.Node;
 
-import java.util.ArrayList;
+public class GreaterThanCondition extends ComparisonCondition {
 
-public class GreaterThanCondition extends Condition {
-    public GreaterThanCondition(final String name, final ArrayList<Node> nodes) {
-        super(name, nodes);
+    public GreaterThanCondition(final String name, final Node left, final Node right) {
+        super(name, left, right);
     }
 
     @Override

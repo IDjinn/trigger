@@ -1,15 +1,13 @@
 package idjinn.tools.conditions.defaults;
 
 
-import idjinn.tools.conditions.Condition;
 import idjinn.tools.conditions.DefaultConditionsTypes;
 import idjinn.tools.conditions.Node;
 
-import java.util.ArrayList;
+public class NotEqualsCondition extends ComparisonCondition {
 
-public class NotEqualsCondition extends Condition {
-    public NotEqualsCondition(final String name, final ArrayList<Node> nodes) {
-        super(name, nodes);
+    public NotEqualsCondition(final String name, final Node left, final Node right) {
+        super(name, left, right);
     }
 
     @Override

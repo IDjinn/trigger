@@ -1,5 +1,6 @@
 package idjinn.tools.events;
 
+import idjinn.tools.TriggerContext;
 import lombok.Data;
 import lombok.ToString;
 
@@ -8,7 +9,9 @@ public abstract class Event {
     @ToString.Exclude
     private final transient Object locker;
 
+
     private final String name;
+    private TriggerContext context;
 
     public Event(final String name) {
         this.name = name;
