@@ -2,6 +2,9 @@ package idjinn.tools;
 
 import idjinn.tools.actions.Action;
 import idjinn.tools.conditions.Condition;
+import idjinn.tools.conditions.Node;
+import idjinn.tools.conditions.Operator;
+import idjinn.tools.conditions.Value;
 import idjinn.tools.events.Event;
 import idjinn.tools.triggers.Trigger;
 import org.dom4j.Element;
@@ -16,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 public class TriggerSystem {
     private static final Logger log = LoggerFactory.getLogger(TriggerSystem.class);
@@ -33,6 +37,10 @@ public class TriggerSystem {
         this.actions = new ConcurrentHashMap<>();
         this.conditions = new ConcurrentHashMap<>();
         this.triggers = new ConcurrentHashMap<>();
+    }
+
+    public void onEvent(final Event event) {
+
     }
 
     public List<Element> parseXMLSource(final String source) {
@@ -92,36 +100,6 @@ public class TriggerSystem {
             } catch (final Exception e) {
                 log.error("trigger init error: {}", e.getMessage(), e);
             }
-        }
-    }
-
-    private static class Factory {
-        public static Trigger createTrigger(final Element element) {
-            final var id = Integer.parseInt(element.attributeValue("id"));
-            final var type = Integer.parseInt(element.attributeValue("type"));
-            final var name = element.attributeValue("name");
-            return new Trigger(id, type, name);
-        }
-
-        public static Event createEvent(final Element element) {
-            final var id = Integer.parseInt(element.attributeValue("id"));
-            final var type = Integer.parseInt(element.attributeValue("type"));
-            final var name = element.attributeValue("name");
-            return new Event(id, type, name);
-        }
-
-        public static Condition createCondition(final Element element) {
-            final var id = Integer.parseInt(element.attributeValue("id"));
-            final var type = Integer.parseInt(element.attributeValue("type"));
-            final var name = element.attributeValue("name");
-            return new Condition(id, type, name);
-        }
-
-        public static Action createAction(final Element element) {
-            final var id = Integer.parseInt(element.attributeValue("id"));
-            final var type = Integer.parseInt(element.attributeValue("type"));
-            final var name = element.attributeValue("name");
-            return new Action(id, type, name);
         }
     }
 

@@ -47,7 +47,7 @@ public abstract class TBase {
     }
 
     public void addAction(final Action action) {
-        this.actions.put(action.id(), action);
+        this.actions.put(action.type(), action);
     }
 
     public Map<Integer, Condition> getConditions() {

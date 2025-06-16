@@ -15,7 +15,8 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
     implementation 'dom4j:dom4j:1.6.1';
-    implementation 'org.slf4j:slf4j-api:2.0.17';
+    implementation 'org.slf4j:slf4j-api:2.0.17'
+    implementation 'org.reflections:reflections:0.10.2'
 }
 
 test {
