@@ -23,11 +23,21 @@ final class TriggerFactory {
     private static final Logger log = LoggerFactory.getLogger(TriggerFactory.class);
     private static final Map<Integer, Class<? extends Action>> ACTION_TYPES = new ConcurrentHashMap<>();
     private static final Map<Integer, Class<? extends Condition>> CONDITION_TYPES = new ConcurrentHashMap<>();
+    private static final Map<Integer, Class<? extends Event>> EVENT_TYPES = new ConcurrentHashMap<>();
 
     public static void registerPackage(final String packageName) {
         final var targetType = (List<Node>) new ArrayList<Node>();
 
         final var reflections = new Reflections(packageName, Scanners.SubTypes);
+        for (final var eventClass : reflections.getSubTypesOf(Event.class)) {
+            try {
+                final var instance = (Event) eventClass.getConstructor(String.class).newInstance("");
+                TriggerFactory.EVENT_TYPES.put(instance.type(), eventClass);
+            } catch (final Exception e) {
+                log.error("could not instantiate {}: {}", eventClass.getSimpleName(), e.getMessage(), e);
+            }
+        }
+
         for (final var actionClass : reflections.getSubTypesOf(Action.class)) {
             try {
                 final var instance = (Action) actionClass.getConstructor(String.class, targetType.getClass()).newInstance("", targetType);
@@ -54,10 +64,22 @@ final class TriggerFactory {
         return new Trigger(id, type, name);
     }
 
+    @SuppressWarnings("unchecked")
     public static Event createEvent(final Element element) {
         final var type = Integer.parseInt(element.attributeValue("type"));
         final var name = element.attributeValue("name");
-        return new Event(type, name);
+        final var eventClass = TriggerFactory.EVENT_TYPES.get(type);
+        if (eventClass == null) {
+            log.error("event {} was not found in type registry", type);
+            throw new IllegalArgumentException("event type " + type + " was not found in type registry!");
+        }
+
+        try {
+            return eventClass.getConstructor(String.class).newInstance(name);
+        } catch (Exception e) {
+            log.error("failed to instantiate event for type {}", type, e);
+            throw new IllegalArgumentException("failed to instantiate event for type " + type, e);
+        }
     }
 
     public static Node createNode(final Element element) {

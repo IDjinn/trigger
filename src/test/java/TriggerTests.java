@@ -1,5 +1,6 @@
+import idjinn.tools.TriggerContext;
 import idjinn.tools.TriggerSystem;
-import idjinn.tools.events.Event;
+import idjinn.tools.events.defaults.UnknownEvent;
 import org.junit.jupiter.api.Test;
 
 public class TriggerTests {
@@ -21,7 +22,7 @@ public class TriggerTests {
                     </conditions>
                     <actions>
                         <action type="1" name="printf">
-                            <value>hello world!</value>
+                            <value>${hello}</value>
                         </action>
                     </actions>
                   </trigger>
@@ -31,6 +32,9 @@ public class TriggerTests {
         final var triggerSystem = new TriggerSystem("idjinn.tools");
         final var elements = triggerSystem.parseXMLSource(XML);
         triggerSystem.init(elements);
-        triggerSystem.onEvent(new Event(0, "building created").addAttribute("BUILDING_ID", "1"));
+
+        final var triggerContext = new TriggerContext(triggerSystem);
+        triggerContext.getVariables().put("hello", "world");
+        triggerSystem.onEvent(triggerContext, new UnknownEvent("building created"));
     }
 }

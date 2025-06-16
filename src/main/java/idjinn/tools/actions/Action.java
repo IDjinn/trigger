@@ -1,5 +1,6 @@
 package idjinn.tools.actions;
 
+import idjinn.tools.TriggerContext;
 import idjinn.tools.conditions.Node;
 import idjinn.tools.events.Event;
 import idjinn.tools.triggers.Trigger;
@@ -21,7 +22,7 @@ public abstract class Action {
         this.nodes = nodes;
     }
 
-    public abstract void process(Event event);
+    public abstract void process(final TriggerContext context, Event event);
 
     public abstract int type();
 }

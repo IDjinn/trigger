@@ -26,27 +26,21 @@ public class TriggerSystem {
     private final Multimap<Integer, Action> actions;
     private final Multimap<Integer, Condition> conditions;
     private final Map<Integer, Trigger> triggers;
-
-    public TriggerSystem(Multimap<Integer, Action> actions, Multimap<Integer, Condition> conditions, Map<Integer, Trigger> triggers) {
-        this.actions = actions;
-        this.conditions = conditions;
-        this.triggers = triggers;
-    }
+    private final TriggerContext context = new TriggerContext(this);
+    private final String packageName;
 
     public TriggerSystem(final String packageName) {
-        TriggerFactory.registerPackage(packageName);
-
+        this.packageName = packageName;
         this.actions = HashMultimap.create();
         this.conditions = HashMultimap.create();
         this.triggers = new ConcurrentHashMap<>();
     }
 
-    public void onEvent(final Event event) {
+    public void onEvent(final TriggerContext context, final Event event) {
         synchronized (event.getLocker()) {
-            event.setTriggerSystem(this);
-
+//            event.setTriggerSystem(this);
             for (final var trigger : this.triggers.values()) {
-                trigger.process(event);
+                trigger.process(context, event);
             }
         }
     }
@@ -80,13 +74,14 @@ public class TriggerSystem {
     }
 
     public void init(final List<Element> elements) {
+        TriggerFactory.registerPackage(packageName);
         for (final var element : elements) {
             try {
                 final var trigger = TriggerFactory.createTrigger(element);
                 final Element events = element.element("events");
                 for (final var e : events.elements()) {
                     final var event = TriggerFactory.createEvent((Element) e);
-                    event.setTrigger(trigger);
+//                    event.setTrigger(trigger);
                     trigger.addEvent(event);
                 }
 

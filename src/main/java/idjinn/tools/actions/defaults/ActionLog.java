@@ -1,5 +1,6 @@
 package idjinn.tools.actions.defaults;
 
+import idjinn.tools.TriggerContext;
 import idjinn.tools.actions.Action;
 import idjinn.tools.actions.DefaultActionsTypes;
 import idjinn.tools.conditions.Node;
@@ -15,8 +16,8 @@ public class ActionLog extends Action {
     }
 
     @Override
-    public void process(final Event event) {
-        log.info(this.getNodes().getFirst().getData().toString());
+    public void process(final TriggerContext context, final Event event) {
+        log.info(context.resolve(this.getNodes().getFirst().getData().toString()));
     }
 
     @Override

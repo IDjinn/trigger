@@ -3,12 +3,12 @@ package idjinn.tools.events.defaults;
 import idjinn.tools.events.Event;
 
 public class UnknownEvent extends Event {
-    public UnknownEvent(final int type, final String name) {
-        super(type, name);
+    public UnknownEvent(final String name) {
+        super(name);
     }
 
     @Override
-    public int getType() {
+    public int type() {
         return 0;
     }
 }
