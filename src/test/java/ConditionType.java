@@ -1,5 +1,3 @@
-package idjinn.tools.conditions;
-
 import lombok.Getter;
 
 @Getter

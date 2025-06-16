@@ -76,8 +76,8 @@ public final class TriggerFactory {
         final var name = element.attributeValue("name");
         final var actionClass = TriggerFactory.actionTypes.get(type);
         if (actionClass == null) {
-            log.error("missing action type {}", type);
-            throw new IllegalArgumentException("missing action type " + type);
+            log.error("action {} was not found in type registry", type);
+            throw new IllegalArgumentException("action type " + type + " was not found in type registry!");
         }
 
         try {

@@ -1,5 +1,3 @@
-package idjinn.tools.events;
-
 import lombok.Getter;
 
 @Getter
