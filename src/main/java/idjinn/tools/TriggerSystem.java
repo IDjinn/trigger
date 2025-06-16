@@ -6,6 +6,7 @@ import idjinn.tools.actions.Action;
 import idjinn.tools.conditions.Condition;
 import idjinn.tools.events.Event;
 import idjinn.tools.triggers.Trigger;
+import lombok.Data;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Data
 public class TriggerSystem {
     private static final Logger log = LoggerFactory.getLogger(TriggerSystem.class);
     private final Multimap<Integer, Action> actions;
@@ -110,17 +112,5 @@ public class TriggerSystem {
     private void registerTrigger(final Trigger trigger) {
         this.triggers.put(trigger.id(), trigger);
         log.debug("added trigger {} with name {}", trigger.id(), trigger.name());
-    }
-
-    public Multimap<Integer, Action> getActions() {
-        return actions;
-    }
-
-    public Multimap<Integer, Condition> getConditions() {
-        return conditions;
-    }
-
-    public Map<Integer, Trigger> getTriggers() {
-        return triggers;
     }
 }

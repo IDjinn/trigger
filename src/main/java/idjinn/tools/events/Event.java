@@ -9,16 +9,18 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Data
-@ToString(exclude = "trigger")
 public class Event {
     private transient Object object;
     private transient Map<String, Object> context;
     private transient TriggerSystem triggerSystem;
-
     private final Map<String, Object> attributes;
+
+    @ToString.Exclude
     private final transient Object locker;
 
+    @ToString.Exclude
     private transient Trigger trigger;
+
     private final int type;
     private final String name;
 

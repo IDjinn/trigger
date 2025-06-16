@@ -6,9 +6,10 @@ import lombok.Data;
 import lombok.ToString;
 
 @Data
-@ToString(exclude = "trigger")
 public abstract class Action {
     private final String name;
+
+    @ToString.Exclude
     private Trigger trigger;
 
     public Action( final String name) {

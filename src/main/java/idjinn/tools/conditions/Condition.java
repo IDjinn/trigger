@@ -8,11 +8,12 @@ import lombok.ToString;
 import java.util.ArrayList;
 
 @Data
-@ToString(exclude = "trigger")
 public class Condition {
     private final int type;
     private final String name;
     private final ArrayList<Node> nodes;
+
+    @ToString.Exclude
     private transient TBase trigger;
 
     public Condition(final int type, final String name, final ArrayList<Node> nodes) {
