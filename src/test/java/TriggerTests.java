@@ -25,6 +25,6 @@ public class TriggerTests {
         final var triggerSystem = new TriggerSystem("idjinn.tools");
         final var elements = triggerSystem.parseXMLSource(XML);
         triggerSystem.init(elements);
-        triggerSystem.onEvent(new Event(EventType.BUILDING_CREATED.getType(), "building created").addAttribute("BUILDING_ID", "1"));
+        triggerSystem.onEvent(new Event(EventType.ON_LOGIN.getType(), "building created").addAttribute("BUILDING_ID", "1"));
     }
 }

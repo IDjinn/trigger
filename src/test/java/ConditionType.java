@@ -2,11 +2,9 @@ import lombok.Getter;
 
 @Getter
 public enum ConditionType {
-    UNKNOWN(0),
-
-    COMPARE_RESOURCES(1),
-    COMPARE_GOLD(2),
-    COMPARE_LORD_LEVEL(3),
+    COMPARE_RESOURCES(300),
+    COMPARE_GOLD(301),
+    COMPARE_LORD_LEVEL(302),
     ;
 
     public final int type;

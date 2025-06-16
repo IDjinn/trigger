@@ -2,10 +2,7 @@ import lombok.Getter;
 
 @Getter
 public enum ActionType {
-    UNKNOWN(0),
-
-    UPGRADE_BUILDING(1),
-
+    LOG(300),
     ;
 
     private final int type;

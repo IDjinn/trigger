@@ -1,5 +1,7 @@
-package idjinn.tools.actions;
+package idjinn.tools.actions.defaults;
 
+import idjinn.tools.actions.Action;
+import idjinn.tools.actions.DefaultActionsTypes;
 import idjinn.tools.conditions.Node;
 import idjinn.tools.events.Event;
 import lombok.extern.slf4j.Slf4j;
@@ -7,8 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.ArrayList;
 
 @Slf4j
-public class ActionPrintf extends Action {
-    public ActionPrintf(final String name, final ArrayList<Node> nodes) {
+public class ActionLog extends Action {
+    public ActionLog(final String name, final ArrayList<Node> nodes) {
         super(name, nodes);
     }
 
@@ -19,6 +21,6 @@ public class ActionPrintf extends Action {
 
     @Override
     public int type() {
-        return 1;
+        return DefaultActionsTypes.LOG.getType();
     }
 }
