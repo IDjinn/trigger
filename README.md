@@ -13,9 +13,6 @@ A configurable, event-driven, trigger-based state machine system designed for hi
 ## Example
 
 ```java
-public class TriggerSystemExample {
-
-    public static void main(String[] args) {
         final var xmlConfiguration = """
                 <?xml version="1.0" encoding="UTF-8"?>
                 <tns:database xmlns:tns="http://www.iw.com/sns/platform/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -47,9 +44,7 @@ public class TriggerSystemExample {
         context.getVariables().put("username", "alice");
         context.getVariables().put("role", "admin");
 
-        triggerSystem.onEvent(context, new UnknownEvent("user_created"));
-    }
-}
+        triggerSystem.onEvent(context, new LoginEvent("user_created"));
 ```
 
 
