@@ -29,7 +29,8 @@ public class TriggerTests {
                 </tns:database>
                 """;
 
-        final var triggerSystem = new TriggerSystem("idjinn.tools");
+        final var triggerSystem = new TriggerSystem();
+        triggerSystem.registerDefaults();
         final var elements = triggerSystem.parseXMLSource(XML);
         triggerSystem.init(elements);
 

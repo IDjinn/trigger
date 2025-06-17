@@ -29,11 +29,20 @@ public class TriggerSystem {
     private final TriggerContext context = new TriggerContext(this);
     private final String packageName;
 
+    public TriggerSystem() {
+        this.packageName = "";
+        this.actions = HashMultimap.create();
+        this.conditions = HashMultimap.create();
+        this.triggers = new ConcurrentHashMap<>();
+    }
+
     public TriggerSystem(final String packageName) {
         this.packageName = packageName;
         this.actions = HashMultimap.create();
         this.conditions = HashMultimap.create();
         this.triggers = new ConcurrentHashMap<>();
+
+        TriggerFactory.registerPackage(this.packageName);
     }
 
     public void onEvent(final TriggerContext context, final Event event) {
@@ -74,8 +83,11 @@ public class TriggerSystem {
         return elements;
     }
 
+    public void registerDefaults() {
+        TriggerFactory.registerPackage("idjinn.tools");
+    }
+
     public void init(final List<Element> elements) {
-        TriggerFactory.registerPackage(packageName);
         for (final var element : elements) {
             try {
                 final var trigger = TriggerFactory.createTrigger(element);
