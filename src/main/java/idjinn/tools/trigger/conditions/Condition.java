@@ -1,5 +1,6 @@
 package idjinn.tools.trigger.conditions;
 
+import idjinn.tools.trigger.TriggerContext;
 import idjinn.tools.trigger.events.Event;
 import idjinn.tools.trigger.triggers.Trigger;
 import lombok.Data;
@@ -20,7 +21,7 @@ public abstract class Condition {
         this.nodes = nodes;
     }
 
-    public abstract boolean matches(final Event event);
+    public abstract boolean matches(final TriggerContext context, final Event event);
 
     public abstract int type();
 }

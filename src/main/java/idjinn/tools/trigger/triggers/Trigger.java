@@ -2,6 +2,7 @@ package idjinn.tools.trigger.triggers;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import idjinn.tools.trigger.TriggerContext;
 import idjinn.tools.trigger.actions.Action;
 import idjinn.tools.trigger.conditions.Condition;
 import idjinn.tools.trigger.events.Event;
@@ -60,13 +61,13 @@ public class Trigger {
         this.actions.put(action.type(), action);
     }
 
-    public void process(final Event event) {
+    public void process(final TriggerContext context, final Event event) {
         final var startTime = System.currentTimeMillis();
         for (final var e : this.events.values()) {
             if (e.type() != event.type()) continue;
 
             for (final var condition : this.conditions.values()) {
-                final var conditionMatch = condition.matches(event);
+                final var conditionMatch = condition.matches(context, event);
                 log.trace("event: {}, condition: {}, match: {}", event, condition.type(), conditionMatch);
                 if (!conditionMatch) return;
             }

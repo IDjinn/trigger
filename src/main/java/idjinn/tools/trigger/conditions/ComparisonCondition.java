@@ -1,5 +1,6 @@
 package idjinn.tools.trigger.conditions;
 
+import idjinn.tools.trigger.TriggerContext;
 import idjinn.tools.trigger.events.Event;
 
 import java.util.ArrayList;
@@ -22,9 +23,9 @@ public class ComparisonCondition extends Condition {
     }
 
     @Override
-    public boolean matches(final Event event) {
-        final var left = this.left().getData();
-        final var right = this.right().getData();
+    public boolean matches(final TriggerContext context, final Event event) {
+        final var left = context.resolve(this.left().getData().toString());
+        final var right = context.resolve(this.right().getData().toString());
 
         return switch (this.operator().getData().toString()) {
             case "==" -> left.equals(right);

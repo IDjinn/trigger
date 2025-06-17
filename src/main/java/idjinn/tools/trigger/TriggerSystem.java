@@ -52,7 +52,7 @@ public class TriggerSystem {
 //            event.setTriggerSystem(this);
             event.setContext(context);
             for (final var trigger : this.triggers.values()) {
-                trigger.process(event);
+                trigger.process(context, event);
             }
         }
     }
