@@ -70,13 +70,13 @@ public class Trigger {
                 log.trace("event: {}, condition: {}, match: {}", event, condition.type(), conditionMatch);
                 if (!conditionMatch) return;
             }
-        }
 
-        for (final var action : this.actions.values()) {
-            log.trace("event: {}, action: {}", event, action);
-            action.process(event);
-        }
+            for (final var action : this.actions.values()) {
+                log.trace("event: {}, action: {}", event, action);
+                action.process(event);
+            }
 
-        log.trace("trigger: {} event: {} took {}ms", this.id(), event, System.currentTimeMillis() - startTime);
+            log.trace("trigger: {} event: {} took {}ms", this.id(), event, System.currentTimeMillis() - startTime);
+        }
     }
 }
