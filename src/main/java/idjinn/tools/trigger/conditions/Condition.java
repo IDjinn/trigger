@@ -1,7 +1,7 @@
-package idjinn.tools.conditions;
+package idjinn.tools.trigger.conditions;
 
-import idjinn.tools.events.Event;
-import idjinn.tools.triggers.Trigger;
+import idjinn.tools.trigger.events.Event;
+import idjinn.tools.trigger.triggers.Trigger;
 import lombok.Data;
 import lombok.ToString;
 

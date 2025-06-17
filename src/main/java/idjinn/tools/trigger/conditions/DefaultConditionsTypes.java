@@ -1,4 +1,4 @@
-package idjinn.tools.conditions;
+package idjinn.tools.trigger.conditions;
 
 import lombok.Getter;
 

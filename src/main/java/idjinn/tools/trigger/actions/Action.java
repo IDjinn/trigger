@@ -1,8 +1,8 @@
-package idjinn.tools.actions;
+package idjinn.tools.trigger.actions;
 
-import idjinn.tools.conditions.Node;
-import idjinn.tools.events.Event;
-import idjinn.tools.triggers.Trigger;
+import idjinn.tools.trigger.conditions.Node;
+import idjinn.tools.trigger.events.Event;
+import idjinn.tools.trigger.triggers.Trigger;
 import lombok.Data;
 import lombok.ToString;
 

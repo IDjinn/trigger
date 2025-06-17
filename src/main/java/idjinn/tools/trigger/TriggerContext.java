@@ -1,4 +1,4 @@
-package idjinn.tools;
+package idjinn.tools.trigger;
 
 import lombok.Data;
 import lombok.ToString;

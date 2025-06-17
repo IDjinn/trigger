@@ -1,6 +1,6 @@
-package idjinn.tools.conditions;
+package idjinn.tools.trigger.conditions;
 
-import idjinn.tools.events.Event;
+import idjinn.tools.trigger.events.Event;
 
 import java.util.ArrayList;
 

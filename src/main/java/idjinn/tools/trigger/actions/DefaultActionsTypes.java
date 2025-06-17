@@ -1,4 +1,4 @@
-package idjinn.tools.actions;
+package idjinn.tools.trigger.actions;
 
 import lombok.Getter;
 

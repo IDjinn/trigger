@@ -1,4 +1,4 @@
-package idjinn.tools.conditions;
+package idjinn.tools.trigger.conditions;
 
 public class Operator extends Node {
     public Operator(final Object data) {

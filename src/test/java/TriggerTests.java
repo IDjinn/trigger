@@ -1,6 +1,6 @@
-import idjinn.tools.TriggerContext;
-import idjinn.tools.TriggerSystem;
-import idjinn.tools.events.defaults.UnknownEvent;
+import idjinn.tools.trigger.TriggerContext;
+import idjinn.tools.trigger.TriggerSystem;
+import idjinn.tools.trigger.events.defaults.UnknownEvent;
 import org.junit.jupiter.api.Test;
 
 public class TriggerTests {
@@ -30,7 +30,7 @@ public class TriggerTests {
                 """;
 
         final var triggerSystem = new TriggerSystem();
-        triggerSystem.registerDefaults();
+        triggerSystem.getTriggerFactory().registerPackage("idjinn.tools.trigger");
         final var elements = triggerSystem.parseXMLSource(XML);
         triggerSystem.init(elements);
 

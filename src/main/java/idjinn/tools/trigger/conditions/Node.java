@@ -1,4 +1,4 @@
-package idjinn.tools.conditions;
+package idjinn.tools.trigger.conditions;
 
 public abstract class Node {
     protected final Object data;

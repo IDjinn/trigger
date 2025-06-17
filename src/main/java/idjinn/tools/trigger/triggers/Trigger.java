@@ -1,10 +1,10 @@
-package idjinn.tools.triggers;
+package idjinn.tools.trigger.triggers;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import idjinn.tools.actions.Action;
-import idjinn.tools.conditions.Condition;
-import idjinn.tools.events.Event;
+import idjinn.tools.trigger.actions.Action;
+import idjinn.tools.trigger.conditions.Condition;
+import idjinn.tools.trigger.events.Event;
 import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

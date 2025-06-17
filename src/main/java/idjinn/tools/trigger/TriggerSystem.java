@@ -1,11 +1,11 @@
-package idjinn.tools;
+package idjinn.tools.trigger;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import idjinn.tools.actions.Action;
-import idjinn.tools.conditions.Condition;
-import idjinn.tools.events.Event;
-import idjinn.tools.triggers.Trigger;
+import idjinn.tools.trigger.actions.Action;
+import idjinn.tools.trigger.conditions.Condition;
+import idjinn.tools.trigger.events.Event;
+import idjinn.tools.trigger.triggers.Trigger;
 import lombok.Data;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
@@ -27,6 +27,8 @@ public class TriggerSystem {
     private final Multimap<Integer, Condition> conditions;
     private final Map<Integer, Trigger> triggers;
     private final TriggerContext context = new TriggerContext(this);
+
+    private final TriggerFactory triggerFactory = new TriggerFactory();
     private final String packageName;
 
     public TriggerSystem() {
@@ -42,7 +44,7 @@ public class TriggerSystem {
         this.conditions = HashMultimap.create();
         this.triggers = new ConcurrentHashMap<>();
 
-        TriggerFactory.registerPackage(this.packageName);
+        this.triggerFactory.registerPackage(this.packageName);
     }
 
     public void onEvent(final TriggerContext context, final Event event) {
@@ -84,30 +86,30 @@ public class TriggerSystem {
     }
 
     public void registerDefaults() {
-        TriggerFactory.registerPackage("idjinn.tools");
+        this.triggerFactory.registerPackage("idjinn.tools");
     }
 
     public void init(final List<Element> elements) {
         for (final var element : elements) {
             try {
-                final var trigger = TriggerFactory.createTrigger(element);
+                final var trigger = this.triggerFactory.createTrigger(element);
                 final Element events = element.element("events");
                 for (final var e : events.elements()) {
-                    final var event = TriggerFactory.createEvent((Element) e);
+                    final var event = this.triggerFactory.createEvent((Element) e);
 //                    event.setTrigger(trigger);
                     trigger.addEvent(event);
                 }
 
                 final Element conditions = element.element("conditions");
                 for (final var c : conditions.elements()) {
-                    final var condition = TriggerFactory.createCondition((Element) c);
+                    final var condition = this.triggerFactory.createCondition((Element) c);
                     condition.setTrigger(trigger);
                     trigger.addCondition(condition);
                 }
 
                 final Element actions = element.element("actions");
                 for (final var a : actions.elements()) {
-                    final var action = TriggerFactory.createAction((Element) a);
+                    final var action = this.triggerFactory.createAction((Element) a);
                     action.setTrigger(trigger);
                     trigger.addAction(action);
                 }

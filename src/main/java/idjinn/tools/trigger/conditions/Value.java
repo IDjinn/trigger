@@ -1,4 +1,4 @@
-package idjinn.tools.conditions;
+package idjinn.tools.trigger.conditions;
 
 public class Value extends Node {
     public Value(final Object data) {

@@ -1,6 +1,6 @@
-package idjinn.tools.events;
+package idjinn.tools.trigger.events;
 
-import idjinn.tools.TriggerContext;
+import idjinn.tools.trigger.TriggerContext;
 import lombok.Data;
 import lombok.ToString;
 

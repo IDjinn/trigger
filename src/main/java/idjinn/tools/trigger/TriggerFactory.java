@@ -1,12 +1,12 @@
-package idjinn.tools;
+package idjinn.tools.trigger;
 
-import idjinn.tools.actions.Action;
-import idjinn.tools.conditions.Condition;
-import idjinn.tools.conditions.Node;
-import idjinn.tools.conditions.Operator;
-import idjinn.tools.conditions.Value;
-import idjinn.tools.events.Event;
-import idjinn.tools.triggers.Trigger;
+import idjinn.tools.trigger.actions.Action;
+import idjinn.tools.trigger.conditions.Condition;
+import idjinn.tools.trigger.conditions.Node;
+import idjinn.tools.trigger.conditions.Operator;
+import idjinn.tools.trigger.conditions.Value;
+import idjinn.tools.trigger.events.Event;
+import idjinn.tools.trigger.triggers.Trigger;
 import org.dom4j.Element;
 import org.reflections.Reflections;
 import org.reflections.scanners.Scanners;
@@ -19,20 +19,21 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
-final class TriggerFactory {
-    private static final Logger log = LoggerFactory.getLogger(TriggerFactory.class);
-    private static final Map<Integer, Class<? extends Action>> ACTION_TYPES = new ConcurrentHashMap<>();
-    private static final Map<Integer, Class<? extends Condition>> CONDITION_TYPES = new ConcurrentHashMap<>();
-    private static final Map<Integer, Class<? extends Event>> EVENT_TYPES = new ConcurrentHashMap<>();
+public final class TriggerFactory {
+    private final Logger log = LoggerFactory.getLogger(TriggerFactory.class);
+    private final Map<Integer, Class<? extends Action>> actionTypes = new ConcurrentHashMap<>();
+    private final Map<Integer, Class<? extends Condition>> conditionTypes = new ConcurrentHashMap<>();
+    private final Map<Integer, Class<? extends Event>> eventTypes = new ConcurrentHashMap<>();
 
-    public static void registerPackage(final String packageName) {
+    public void registerPackage(final String packageName) {
+        log.trace("registering package {} classes", packageName);
         final var targetType = (List<Node>) new ArrayList<Node>();
 
         final var reflections = new Reflections(packageName, Scanners.SubTypes);
         for (final var eventClass : reflections.getSubTypesOf(Event.class)) {
             try {
                 final var instance = (Event) eventClass.getConstructor(String.class).newInstance("");
-                TriggerFactory.EVENT_TYPES.put(instance.type(), eventClass);
+                this.eventTypes.put(instance.type(), eventClass);
             } catch (final Exception e) {
                 log.error("could not instantiate {}: {}", eventClass.getSimpleName(), e.getMessage(), e);
             }
@@ -41,7 +42,7 @@ final class TriggerFactory {
         for (final var actionClass : reflections.getSubTypesOf(Action.class)) {
             try {
                 final var instance = (Action) actionClass.getConstructor(String.class, targetType.getClass()).newInstance("", targetType);
-                TriggerFactory.ACTION_TYPES.put(instance.type(), actionClass);
+                this.actionTypes.put(instance.type(), actionClass);
             } catch (final Exception e) {
                 log.error("could not instantiate {}: {}", actionClass.getSimpleName(), e.getMessage(), e);
             }
@@ -50,14 +51,14 @@ final class TriggerFactory {
         for (final var conditionClass : reflections.getSubTypesOf(Condition.class)) {
             try {
                 final var instance = (Condition) conditionClass.getConstructor(String.class, targetType.getClass()).newInstance("", targetType);
-                TriggerFactory.CONDITION_TYPES.put(instance.type(), conditionClass);
+                this.conditionTypes.put(instance.type(), conditionClass);
             } catch (final Exception e) {
                 log.error("could not instantiate {}: {}", conditionClass.getSimpleName(), e.getMessage(), e);
             }
         }
     }
 
-    public static Trigger createTrigger(final Element element) {
+    public Trigger createTrigger(final Element element) {
         final var id = Integer.parseInt(element.attributeValue("id"));
         final var type = Integer.parseInt(element.attributeValue("type"));
         final var name = element.attributeValue("name");
@@ -65,10 +66,10 @@ final class TriggerFactory {
     }
 
     @SuppressWarnings("unchecked")
-    public static Event createEvent(final Element element) {
+    public Event createEvent(final Element element) {
         final var type = Integer.parseInt(element.attributeValue("type"));
         final var name = element.attributeValue("name");
-        final var eventClass = TriggerFactory.EVENT_TYPES.get(type);
+        final var eventClass = this.eventTypes.get(type);
         if (eventClass == null) {
             log.error("event {} was not found in type registry", type);
             throw new IllegalArgumentException("event type " + type + " was not found in type registry!");
@@ -82,7 +83,7 @@ final class TriggerFactory {
         }
     }
 
-    public static Node createNode(final Element element) {
+    public Node createNode(final Element element) {
         return switch (element.getName()) {
             case "value" -> new Value(element.getData());
             case "op" -> new Operator(element.getData());
@@ -92,16 +93,16 @@ final class TriggerFactory {
 
 
     @SuppressWarnings("unchecked")
-    public static Condition createCondition(final Element element) {
+    public Condition createCondition(final Element element) {
         final var type = Integer.parseInt(element.attributeValue("type"));
         final var name = element.attributeValue("name");
 
         final var tags = ((List<Element>) element.elements())
                 .stream()
-                .map(TriggerFactory::createNode)
+                .map(this::createNode)
                 .collect(Collectors.toCollection(ArrayList::new));
 
-        final var conditionClass = TriggerFactory.CONDITION_TYPES.get(type);
+        final var conditionClass = this.conditionTypes.get(type);
         if (conditionClass == null) {
             log.error("condition {} was not found in type registry", type);
             throw new IllegalArgumentException("condition type " + type + " was not found in type registry!");
@@ -116,15 +117,15 @@ final class TriggerFactory {
     }
 
     @SuppressWarnings("unchecked")
-    public static Action createAction(final Element element) {
+    public Action createAction(final Element element) {
         final int type = Integer.parseInt(element.attributeValue("type"));
         final var name = element.attributeValue("name");
         final var tags = ((List<Element>) element.elements())
                 .stream()
-                .map(TriggerFactory::createNode)
+                .map(this::createNode)
                 .collect(Collectors.toCollection(ArrayList::new));
 
-        final var actionClass = TriggerFactory.ACTION_TYPES.get(type);
+        final var actionClass = this.actionTypes.get(type);
         if (actionClass == null) {
             log.error("action {} was not found in type registry", type);
             throw new IllegalArgumentException("action type " + type + " was not found in type registry!");

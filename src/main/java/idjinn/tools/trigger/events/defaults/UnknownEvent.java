@@ -1,6 +1,6 @@
-package idjinn.tools.events.defaults;
+package idjinn.tools.trigger.events.defaults;
 
-import idjinn.tools.events.Event;
+import idjinn.tools.trigger.events.Event;
 
 public class UnknownEvent extends Event {
     public UnknownEvent(final String name) {
